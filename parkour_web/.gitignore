@@ -1,0 +1,12 @@
+node_modules/
+dist/
+# The Space folder holds the built page next to its README, LICENSE and NOTICE.
+space/*
+!space/README.md
+!space/LICENSE
+!space/NOTICE.md
+.vite/
+*.log
+# Reference episodes recorded from Python and closed-loop results: large, rebuilt by the tools.
+tools/ref/rollouts/
+tools/ref/closed_loop/

@@ -1,0 +1,92 @@
+<mujoco model="beni parkour">
+  <compiler angle="radian" autolimits="false"/>
+  <option timestep="0.002" integrator="implicitfast" cone="pyramidal" solver="Newton" jacobian="auto" iterations="10" ls_iterations="20" tolerance="1e-08" ls_tolerance="0.01" impratio="1.0" ccd_iterations="50" ccd_tolerance="1e-06" noslip_iterations="0" gravity="0.0 0.0 -9.81"/>
+  <worldbody>
+    <body name="terrain"><!--TERRAIN--></body>
+    <body name="robot/base_link" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0">
+      <inertial pos="-0.026830109 -0.00097765393 -0.0006967038800000001" quat="0.5054460230904834 0.5139138390599479 0.477835608606417 0.5020856649142836" mass="0.60837039" diaginertia="0.001721732838243447 0.001657513112879057 0.000582257348877495"/>
+      <joint name="robot/root_joint" type="free"/>
+      <geom name="robot/base_collision" type="box" size="0.075 0.04 0.035" pos="-0.005 0.0 0.0" quat="1.0 0.0 0.0 0.0" group="3" contype="1" conaffinity="1" condim="3" priority="0" friction="1.0 0.005 0.0001" solref="0.02 1.0" solimp="0.9 0.95 0.001 0.5 2.0" solmix="1.0" margin="0.0" gap="0.0" mass="0"/>
+      <site name="robot/imu_site" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" size="0.01"/>
+      <camera name="robot/depth_front" pos="0.07 0.03 -0.016" quat="0.5 0.5 -0.5 -0.5" fovy="86.529"/>
+      <body name="robot/head_intermediate" pos="-0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0">
+        <inertial pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" mass="1e-09" diaginertia="1e-09 1e-09 1e-09"/>
+        <joint name="robot/head_yaw_joint" type="hinge" pos="0.0 0.0 0.0" axis="0.0 0.0 1.0" limited="true" range="-5.2 5.2" actuatorfrclimited="false" actuatorfrcrange="-0.1 0.1" armature="0.0" frictionloss="0.0" damping="0.0" stiffness="0.0" ref="0" solreflimit="0.02 1.0" solimplimit="0.9 0.95 0.001 0.5 2.0" solreffriction="0.02 1.0" solimpfriction="0.9 0.95 0.001 0.5 2.0" margin="0.0"/>
+        <body name="robot/head" pos="0.0 0.0 0.0369" quat="1.0 0.0 0.0 0.0">
+          <inertial pos="0.0057515429 -3.3763401999999995e-05 0.030715793999999998" quat="-0.0020393412588467436 0.7047636640547458 0.0030651340142857234 0.7094326069957863" mass="0.22713973" diaginertia="0.00035077154374781033 0.0002353260010844447 0.00021585233516774446"/>
+          <joint name="robot/head_roll_joint" type="hinge" pos="0.0 0.0 0.0" axis="1.0 0.0 0.0" limited="true" range="-0.05 0.05" actuatorfrclimited="false" actuatorfrcrange="-1000.0 1000.0" armature="0.0" frictionloss="0.0" damping="0.0" stiffness="0.0" ref="0" solreflimit="0.02 1.0" solimplimit="0.9 0.95 0.001 0.5 2.0" solreffriction="0.02 1.0" solimpfriction="0.9 0.95 0.001 0.5 2.0" margin="0.0"/>
+          <geom name="robot/head_collision" type="box" size="0.055 0.06 0.035" pos="0.0 0.0 0.045" quat="1.0 0.0 0.0 0.0" group="3" contype="1" conaffinity="1" condim="3" priority="0" friction="1.0 0.005 0.0001" solref="0.02 1.0" solimp="0.9 0.95 0.001 0.5 2.0" solmix="1.0" margin="0.0" gap="0.0" mass="0"/>
+          <site name="robot/head_imu_site" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" size="0.01"/>
+        </body>
+      </body>
+      <body name="robot/L1_Link" pos="0.0 0.048 0.0" quat="1.0 0.0 0.0 0.0">
+        <inertial pos="-0.008230681600000001 -0.005782016300000001 0.0008501348800000001" quat="-0.05149305652582873 0.6499078373602372 -0.36735158009782704 0.6633408510464294" mass="0.26100817" diaginertia="0.0001901399583772579 0.0001716726609791888 8.986579064355317e-05"/>
+        <joint name="robot/L1" type="hinge" pos="0.0 0.0 0.0" axis="0.0 -1.0 0.0" limited="true" range="-2.5307 6.894" actuatorfrclimited="false" actuatorfrcrange="-1.375 1.375" armature="0.0001625" frictionloss="0.02" damping="0.0" stiffness="0.0" ref="0" solreflimit="0.02 1.0" solimplimit="0.9 0.95 0.001 0.5 2.0" solreffriction="0.02 1.0" solimpfriction="0.9 0.95 0.001 0.5 2.0" margin="0.0"/>
+        <geom name="robot/L1_collision" type="box" size="0.065 0.015 0.025" pos="-0.03 0.02 0.005" quat="1.0 0.0 0.0 0.0" group="3" contype="1" conaffinity="1" condim="3" priority="0" friction="1.0 0.005 0.0001" solref="0.02 1.0" solimp="0.9 0.95 0.001 0.5 2.0" solmix="1.0" margin="0.0" gap="0.0" mass="0"/>
+        <body name="robot/L2_Link" pos="-0.07 0.024 0.0" quat="1.0 0.0 0.0 0.0">
+          <inertial pos="0.00016609656 0.005196929800000001 -0.062290377999999993" quat="0.7060848309245916 0.05169944185377535 -0.04433149161532104 0.7048447333288098" mass="0.08287119" diaginertia="7.702348909298308e-05 7.086478767904435e-05 1.1817530227972501e-05"/>
+          <joint name="robot/L2" type="hinge" pos="0.0 0.0 0.0" axis="0.0 -1.0 0.0" limited="true" range="-0.7853981633974483 1.1344640137963142" actuatorfrclimited="false" actuatorfrcrange="-3.6 3.6" armature="0.0005375" frictionloss="0.02" damping="0.0" stiffness="0.0" ref="0" solreflimit="0.02 1.0" solimplimit="0.9 0.95 0.001 0.5 2.0" solreffriction="0.02 1.0" solimpfriction="0.9 0.95 0.001 0.5 2.0" margin="0.0"/>
+          <geom type="box" size="0.0075 0.005 0.0325" pos="0.0 -0.0035 -0.035" quat="1.0 0.0 0.0 0.0" group="3" contype="1" conaffinity="1" condim="3" priority="0" friction="1.0 0.005 0.0001" solref="0.02 1.0" solimp="0.9 0.95 0.001 0.5 2.0" solmix="1.0" margin="0.0" gap="0.0" mass="0"/>
+          <geom name="robot/L2_collision" type="cylinder" size="0.025 0.01" pos="0.0 0.0 -0.075" quat="0.7071067811865476 0.7071067811865475 0.0 0.0" group="3" contype="1" conaffinity="1" condim="3" priority="0" friction="1.0 0.005 0.0001" solref="0.02 1.0" solimp="0.9 0.95 0.001 0.5 2.0" solmix="1.0" margin="0.0" gap="0.0" mass="0"/>
+          <body name="robot/LW_Link" pos="0.0 0.008 -0.075" quat="1.0 0.0 0.0 0.0">
+            <inertial pos="2.2944408999999998e-05 0.01067511 0.00017766532" quat="0.3365901074660884 0.6214139840925883 0.6253356470051904 0.3309185526904564" mass="0.076978199" diaginertia="3.953245164146268e-05 2.462917430453667e-05 2.4612557054000686e-05"/>
+            <joint name="robot/LW" type="hinge" pos="0.0 0.0 0.0" axis="0.0 -1.0 0.0" limited="false" range="0.0 0.0" actuatorfrclimited="false" actuatorfrcrange="-0.6 0.6" armature="0.0" frictionloss="0.005" damping="0.0" stiffness="0.0" ref="0" solreflimit="0.02 1.0" solimplimit="0.9 0.95 0.001 0.5 2.0" solreffriction="0.02 1.0" solimpfriction="0.9 0.95 0.001 0.5 2.0" margin="0.0"/>
+            <geom name="robot/LW_collision" type="cylinder" size="0.038 0.0105" pos="0.0 0.013 0.0" quat="0.7071067811865476 0.7071067811865475 0.0 0.0" group="3" contype="1" conaffinity="1" condim="3" priority="1" friction="1.0 0.005 0.0001" solref="0.02 1.0" solimp="0.9 0.95 0.001 0.5 2.0" solmix="1.0" margin="0.0" gap="0.0" mass="0"/>
+          </body>
+        </body>
+      </body>
+      <body name="robot/R1_Link" pos="0.0 -0.048 0.0" quat="1.0 0.0 0.0 0.0">
+        <inertial pos="-0.008230681600000001 0.005782016300000001 0.0008501348800000001" quat="0.05149305652582873 0.6499078373602372 0.3673515800978271 0.6633408510464295" mass="0.26100817" diaginertia="0.0001901399583772579 0.0001716726609791888 8.986579064355317e-05"/>
+        <joint name="robot/R1" type="hinge" pos="0.0 0.0 0.0" axis="0.0 -1.0 0.0" limited="true" range="-2.5307 6.894" actuatorfrclimited="false" actuatorfrcrange="-1.375 1.375" armature="0.0001625" frictionloss="0.02" damping="0.0" stiffness="0.0" ref="0" solreflimit="0.02 1.0" solimplimit="0.9 0.95 0.001 0.5 2.0" solreffriction="0.02 1.0" solimpfriction="0.9 0.95 0.001 0.5 2.0" margin="0.0"/>
+        <geom name="robot/R1_collision" type="box" size="0.065 0.015 0.025" pos="-0.03 -0.02 0.005" quat="1.0 0.0 0.0 0.0" group="3" contype="1" conaffinity="1" condim="3" priority="0" friction="1.0 0.005 0.0001" solref="0.02 1.0" solimp="0.9 0.95 0.001 0.5 2.0" solmix="1.0" margin="0.0" gap="0.0" mass="0"/>
+        <body name="robot/R2_Link" pos="-0.07 -0.024 0.0" quat="1.0 0.0 0.0 0.0">
+          <inertial pos="0.00016609656 -0.005196929800000001 -0.062290377999999993" quat="0.7048447333288098 -0.04433149161532104 0.05169944185377535 0.7060848309245916" mass="0.08287119" diaginertia="7.702348909298308e-05 7.086478767904435e-05 1.1817530227972501e-05"/>
+          <joint name="robot/R2" type="hinge" pos="0.0 0.0 0.0" axis="0.0 -1.0 0.0" limited="true" range="-0.7853981633974483 1.1344640137963142" actuatorfrclimited="false" actuatorfrcrange="-3.6 3.6" armature="0.0005375" frictionloss="0.02" damping="0.0" stiffness="0.0" ref="0" solreflimit="0.02 1.0" solimplimit="0.9 0.95 0.001 0.5 2.0" solreffriction="0.02 1.0" solimpfriction="0.9 0.95 0.001 0.5 2.0" margin="0.0"/>
+          <geom type="box" size="0.0075 0.005 0.0325" pos="0.0 0.0035 -0.035" quat="1.0 0.0 0.0 0.0" group="3" contype="1" conaffinity="1" condim="3" priority="0" friction="1.0 0.005 0.0001" solref="0.02 1.0" solimp="0.9 0.95 0.001 0.5 2.0" solmix="1.0" margin="0.0" gap="0.0" mass="0"/>
+          <geom name="robot/R2_collision" type="cylinder" size="0.025 0.01" pos="0.0 0.0 -0.075" quat="0.7071067811865476 0.7071067811865475 0.0 0.0" group="3" contype="1" conaffinity="1" condim="3" priority="0" friction="1.0 0.005 0.0001" solref="0.02 1.0" solimp="0.9 0.95 0.001 0.5 2.0" solmix="1.0" margin="0.0" gap="0.0" mass="0"/>
+          <body name="robot/RW_Link" pos="0.0 -0.008 -0.075" quat="1.0 0.0 0.0 0.0">
+            <inertial pos="2.2944408999999998e-05 -0.01067511 0.00017766532" quat="0.3309185526904564 0.6253356470051904 0.6214139840925883 0.3365901074660884" mass="0.076978199" diaginertia="3.953245164146268e-05 2.462917430453667e-05 2.4612557054000686e-05"/>
+            <joint name="robot/RW" type="hinge" pos="0.0 0.0 0.0" axis="0.0 -1.0 0.0" limited="false" range="0.0 0.0" actuatorfrclimited="false" actuatorfrcrange="-0.6 0.6" armature="0.0" frictionloss="0.005" damping="0.0" stiffness="0.0" ref="0" solreflimit="0.02 1.0" solimplimit="0.9 0.95 0.001 0.5 2.0" solreffriction="0.02 1.0" solimpfriction="0.9 0.95 0.001 0.5 2.0" margin="0.0"/>
+            <geom name="robot/RW_collision" type="cylinder" size="0.038 0.0105" pos="0.0 -0.013 0.0" quat="0.7071067811865476 0.7071067811865475 0.0 0.0" group="3" contype="1" conaffinity="1" condim="3" priority="1" friction="1.0 0.005 0.0001" solref="0.02 1.0" solimp="0.9 0.95 0.001 0.5 2.0" solmix="1.0" margin="0.0" gap="0.0" mass="0"/>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <contact>
+    <exclude body1="robot/L1_Link" body2="robot/LW_Link"/>
+    <exclude body1="robot/R1_Link" body2="robot/RW_Link"/>
+  </contact>
+  <actuator>
+    <general name="robot/L1" joint="robot/L1" ctrllimited="true" ctrlrange="-1.375 1.375" forcelimited="true" forcerange="-1.375 1.375"/>
+    <general name="robot/R1" joint="robot/R1" ctrllimited="true" ctrlrange="-1.375 1.375" forcelimited="true" forcerange="-1.375 1.375"/>
+    <general name="robot/L2" joint="robot/L2" ctrllimited="true" ctrlrange="-4.6 4.6" forcelimited="true" forcerange="-4.6 4.6"/>
+    <general name="robot/R2" joint="robot/R2" ctrllimited="true" ctrlrange="-4.6 4.6" forcelimited="true" forcerange="-4.6 4.6"/>
+    <general name="robot/LW" joint="robot/LW" ctrllimited="true" ctrlrange="-0.6 0.6" forcelimited="true" forcerange="-0.6 0.6"/>
+    <general name="robot/RW" joint="robot/RW" ctrllimited="true" ctrlrange="-0.6 0.6" forcelimited="true" forcerange="-0.6 0.6"/>
+    <general name="robot/head_yaw_joint" joint="robot/head_yaw_joint" ctrllimited="true" ctrlrange="-0.1 0.1" forcelimited="true" forcerange="-0.1 0.1"/>
+    <general name="robot/head_roll_joint" joint="robot/head_roll_joint" ctrllimited="true" ctrlrange="-1.0 1.0" forcelimited="true" forcerange="-1.0 1.0"/>
+  </actuator>
+  <sensor>
+    <accelerometer site="robot/imu_site" name="robot/imu_acc"/>
+    <gyro site="robot/imu_site" name="robot/imu_gyro"/>
+    <framequat objtype="site" objname="robot/imu_site" name="robot/imu_quat"/>
+    <velocimeter site="robot/imu_site" name="robot/base_vel"/>
+    <accelerometer site="robot/head_imu_site" name="robot/head_imu_acc"/>
+    <gyro site="robot/head_imu_site" name="robot/head_imu_gyro"/>
+    <framequat objtype="site" objname="robot/head_imu_site" name="robot/head_imu_quat"/>
+    <contact body1="robot/base_link" body2="terrain" data="force" reduce="netforce" name="illegal_ground_contact_base_link_force"/>
+    <contact body1="robot/L1_Link" body2="terrain" data="force" reduce="netforce" name="illegal_ground_contact_L1_Link_force"/>
+    <contact body1="robot/L2_Link" body2="terrain" data="force" reduce="netforce" name="illegal_ground_contact_L2_Link_force"/>
+    <contact body1="robot/R1_Link" body2="terrain" data="force" reduce="netforce" name="illegal_ground_contact_R1_Link_force"/>
+    <contact body1="robot/R2_Link" body2="terrain" data="force" reduce="netforce" name="illegal_ground_contact_R2_Link_force"/>
+    <contact body1="robot/base_link" body2="terrain" data="force" reduce="netforce" name="body_ground_contact_base_link_force"/>
+    <contact body1="robot/head" body2="terrain" data="force" reduce="netforce" name="body_ground_contact_head_force"/>
+    <contact body1="robot/L1_Link" body2="terrain" data="force" reduce="netforce" name="body_ground_contact_L1_Link_force"/>
+    <contact body1="robot/L2_Link" body2="terrain" data="force" reduce="netforce" name="body_ground_contact_L2_Link_force"/>
+    <contact body1="robot/R1_Link" body2="terrain" data="force" reduce="netforce" name="body_ground_contact_R1_Link_force"/>
+    <contact body1="robot/R2_Link" body2="terrain" data="force" reduce="netforce" name="body_ground_contact_R2_Link_force"/>
+    <contact body1="robot/LW_Link" body2="terrain" data="force" reduce="netforce" name="wheel_ground_contact_LW_Link_force"/>
+    <contact body1="robot/RW_Link" body2="terrain" data="force" reduce="netforce" name="wheel_ground_contact_RW_Link_force"/>
+  </sensor>
+</mujoco>

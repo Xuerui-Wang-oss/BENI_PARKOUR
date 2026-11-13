@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BENI Parkour</title>
+    <meta name="description" content="Build an obstacle course and watch the BENI robot cross it with a learned policy, running entirely in your browser." />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="brand">BENI <span>PARKOUR</span></div>
+      <div class="tagline">Build a course. A learned policy drives the robot across it, in your browser.</div>
+    </header>
+    <main>
+      <aside id="panel"></aside>
+      <section id="stage">
+        <canvas id="view"></canvas>
+        <div id="labels"></div>
+        <div id="hud" hidden>
+          <div id="track"><div id="track-marks"></div><div id="track-robot"></div></div>
+          <div id="readouts"></div>
+        </div>
+        <figure id="depth-box" hidden>
+          <canvas id="depth" width="80" height="60"></canvas>
+          <figcaption>What the policy sees: depth, 80 × 60</figcaption>
+        </figure>
+        <div id="gauges" hidden>
+          <div class="title">What the policy decides, 20 times a second</div>
+          <div class="gauge"><span>Speed</span><div class="bar"><i id="gauge-speed"></i></div><b id="value-speed"></b></div>
+          <div class="gauge"><span>Body height</span><div class="bar"><i id="gauge-height"></i></div><b id="value-height"></b></div>
+          <div class="gauge"><span>Jump</span><div class="lamp" id="gauge-jump"></div><b id="value-jump"></b></div>
+        </div>
+        <div id="keys" hidden><kbd>C</kbd> robot's view <kbd>Space</kbd> pause <kbd>R</kbd> restart <kbd>E</kbd> edit course</div>
+        <canvas id="fireworks"></canvas>
+        <div id="result" hidden></div>
+      </section>
+    </main>
+    <script type="module" src="/src/app.js"></script>
+  </body>
+</html>

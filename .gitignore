@@ -1,0 +1,29 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+logs/
+outputs/
+runs/
+.omx/
+/tests/
+/web/tests/
+/docs/
+/AGENTS.md
+/MEMORY.md
+/:memory:.ses
+/assets/motions/README.md
+/assets/motions/recovery_initial_states_screening.npz
+/tmp/
+
+# Root-level deployment exports must not enter the source repository.
+/dist/
+
+# Parkour project: the checkpoints of an early training run, a smoke-test run, the archive that carried the code to
+# the training machine, and files of the operating system, the editor and MuJoCo.
+/python/parkour_rl/Results/
+/python/parkour_rl/logs_smoke/
+/python/parkour_rl_env2.zip
+.DS_Store
+.vscode/
+MUJOCO_LOG.TXT
