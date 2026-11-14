@@ -1,4 +1,4 @@
-# BENI PARKOUR
+# <img src="python/parkour_rl/media/logo.png" alt="BENI PARKOUR logo" height="52"> BENI PARKOUR
 
 A policy that sees only a depth image drives the BENI wheel-legged robot through obstacle lanes: it jumps pits, cubes
 and bars, crawls under tunnels and climbs ramps. Everything is trained and tested in simulation.
