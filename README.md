@@ -114,7 +114,10 @@ the goal.
 
 **https://huggingface.co/spaces/XueruiWang/beni-parkour**
 
-[![The web demo](python/parkour_rl/media/web_demo.png)](https://huggingface.co/spaces/XueruiWang/beni-parkour)
+[![The web demo: building a course of five obstacles and the robot crossing it](python/parkour_rl/media/web_demo.gif)](https://huggingface.co/spaces/XueruiWang/beni-parkour)
+
+*A full session in the web demo: five obstacles, two sizes changed, then the race (editing shown 1.6 times faster,
+the race in real time). [MP4](python/parkour_rl/media/web_demo.mp4)*
 
 Choose 4 to 6 obstacles, drag them into the lane, set their sizes and spacing, and the same policy drives the robot
 across. The page shows what the policy sees (the depth image) and what it decides (speed, body height, jump).
