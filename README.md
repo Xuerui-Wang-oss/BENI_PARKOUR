@@ -96,19 +96,13 @@ one was no better on the test layout (51 of 80 episodes against 54) and had forg
 
 ![The final policy on the test layout](python/parkour_rl/media/env2_test_results.gif)
 
-*The final policy on six lanes of the test layout, each until its episode ends. One episode was run on each of the
-16 test lanes and the robot reached the goal on 11; the clip shows six of those 11.*
+Episodes that reach the goal. Every lane is run for 5 episodes, each with a new random start and goal, with
+deterministic actions; the counts are episodes, not lanes.
 
-Goal reached, over 5 episodes per lane with a random start and goal and with deterministic actions:
-
-| Policy | Training layouts (64 lanes) | Test layout (16 lanes) |
+| Policy | Training layouts (64 lanes × 5 episodes = 320) | Test layout (16 lanes × 5 episodes = 80) |
 | --- | :---: | :---: |
 | env1 policy, before any training on env2 | 60% (191/320) | 61% (49/80) |
 | env2 policy, iteration 1000 (released) | **78%** (249/320) | **68%** (54/80) |
-
-The released policy passes every obstacle of the lane in 80% of the episodes on the training layouts and in 88% on
-the test layout. The episodes that pass every obstacle and still fail do so between the last obstacle and the stop at
-the goal.
 
 ## Web demo
 
