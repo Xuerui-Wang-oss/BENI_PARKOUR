@@ -5,7 +5,7 @@
 
     python -m parkour_rl.make_media skills     # the two frozen low-level policies on a flat floor: four clips
     python -m parkour_rl.make_media stages     # three training videos of the env1 run, one per row
-    python -m parkour_rl.make_media layouts    # the four training layouts of env2, drawn as a stack
+    python -m parkour_rl.make_media layouts    # the training layouts and the test layout of env2, drawn as a stack
     python -m parkour_rl.make_media results    # the final policy on the test layout of env2: six lanes in one clip
 
 Run it from the ``python`` directory. Every clip is written as .mp4 and as .gif, which a README can show in place.
@@ -16,7 +16,8 @@ skills    The hierarchy of the parkour task (hierarchy.ParkourVecEnvWrapper) wit
 stages    The videos that ``train --video`` recorded during the env1 run, STAGES of them. Each is one row of the clip:
           its tiles STAGE_TILES (pit, cube, hollow, ramp_cube) under a line with its PPO iteration and the curriculum
           rows its robots were on.
-layouts   The lanes of env2 as the terrain generator builds them, the training layouts moved on top of each other.
+layouts   The lanes of env2 as the terrain generator builds them, the layouts moved on top of each other: the
+          training layouts, then the test layout at the bottom.
           The lanes are drawn up to the nearest goal of the longest one; behind it every lane is empty.
 results   One episode of RESULT_CHECKPOINT, with deterministic actions, on each of the 16 lanes of the test layout of
           env2, which training never used. The outcome of every lane is printed. The clip shows six of them at once,
@@ -109,7 +110,7 @@ LAYER_GAP = 14.  # Height between two layouts of the stack (m).
 VIEW = dict(azimuth=45., elevation=-35.)
 PIXELS_PER_METRE = 44
 SUPERSAMPLING = 2  # The picture is rendered this many times larger and scaled down, which smooths the edges.
-MARGIN = (11., 3., 3., 6.5)  # Left (layout names), top, right, bottom (legend) of the picture (m).
+MARGIN = (14., 3., 3., 6.5)  # Left (layout names), top, right, bottom (legend) of the picture (m).
 LEGEND = (("pit", DARK), ("cube", ORANGE), ("bar (thin cube)", RED), ("tunnel (hollow)", BLUE),
           ("ramp + cube", GREEN))
 
@@ -254,7 +255,8 @@ def stages() -> None:
 
 
 def layouts() -> None:
-    """Draw the training layouts of env2 as a stack, layout 1 on top: media/env2_layouts.png."""
+    """Draw the layouts of env2 as a stack, training layout 1 on top and the test layout at the bottom:
+    media/env2_layouts.png."""
     spec = mujoco.MjSpec()
     cfg = make_env2_terrain_cfg()
     TerrainGenerator(cfg).compile(spec)
@@ -263,12 +265,12 @@ def layouts() -> None:
     # The generator lays the rows (layouts) end to end along x, the whole grid centred on the world origin.
     start_x = -cfg.num_rows * LANE[0] / 2
     row = ((terrain.geom_pos[:, 0] - start_x) // LANE[0]).astype(int)  # Layout of each geom.
-    # The lanes are drawn up to here (m): the nearest goal of the training lane whose last obstacle lies farthest.
+    # The lanes are drawn up to here (m): the nearest goal of the lane whose last obstacle lies farthest.
     length = max(lane.layouts[layout][-1]["x_end"] for lane in cfg.sub_terrains.values()
-                 for layout in range(ENV2_TRAIN_LAYOUTS)) + GOAL_MARGIN[0]
+                 for layout in range(cfg.num_rows)) + GOAL_MARGIN[0]
 
     stack = mujoco.MjSpec()
-    for i in np.flatnonzero(row < ENV2_TRAIN_LAYOUTS):
+    for i in range(len(row)):
         position, half_size = terrain.geom_pos[i].copy(), terrain.geom_size[i].copy()
         position[0] -= start_x + row[i] * LANE[0]  # Every layout starts at x = 0.
         # Cut at ``length``. Only ground boxes and walls reach that far, and their first axis is the lane's.
@@ -276,7 +278,7 @@ def layouts() -> None:
         if low >= length:
             continue
         position[0], half_size[0] = (low + high) / 2, (high - low) / 2
-        position[2] += (ENV2_TRAIN_LAYOUTS - 1 - row[i]) * LAYER_GAP
+        position[2] += (cfg.num_rows - 1 - row[i]) * LAYER_GAP
         stack.worldbody.add_geom(type=mujoco.mjtGeom.mjGEOM_BOX, size=half_size, pos=position,
                                  quat=terrain.geom_quat[i], rgba=terrain.geom_rgba[i])
     stack.worldbody.add_light(type=mujoco.mjtLightType.mjLIGHT_DIRECTIONAL, dir=(.3, -.5, -1.), castshadow=False,
@@ -289,7 +291,7 @@ def layouts() -> None:
     up = np.array((-math.cos(azimuth) * math.sin(elevation), -math.sin(azimuth) * math.sin(elevation),
                    math.cos(elevation)))
     width = ENV2_LANES * LANE[1]
-    top = (ENV2_TRAIN_LAYOUTS - 1) * LAYER_GAP
+    top = (cfg.num_rows - 1) * LAYER_GAP
     corners = np.array([(x, y, z) for x in (0., length) for y in (-width / 2, width / 2) for z in (-.5, top + .5)])
     low = np.array(((corners @ right).min() - MARGIN[0], (corners @ up).min() - MARGIN[3]))
     high = np.array(((corners @ right).max() + MARGIN[2], (corners @ up).max() + MARGIN[1]))
@@ -325,19 +327,23 @@ def layouts() -> None:
         return (point @ right - low[0]) * PIXELS_PER_METRE, (high[1] - point @ up) * PIXELS_PER_METRE
 
     draw = ImageDraw.Draw(picture)
-    name, note = ImageFont.load_default(64), ImageFont.load_default(40)
+    name, note = ImageFont.load_default(64), ImageFont.load_default(48)
     ink, soft = (30, 30, 30), (95, 95, 95)
-    for layout in range(ENV2_TRAIN_LAYOUTS):
+    for layout in range(cfg.num_rows):
+        training = layout < ENV2_TRAIN_LAYOUTS
         # The left corner of the layout: the far end of the lanes' start line.
-        x, y = pixel((0., width / 2, (ENV2_TRAIN_LAYOUTS - 1 - layout) * LAYER_GAP))
-        draw.text((x - 30, y - 24), f"Layout {layout + 1}", font=name, fill=ink, anchor="rm")
-        draw.text((x - 30, y + 34), f"{ENV2_LANES} lanes", font=note, fill=soft, anchor="rm")
-    # Legend along the bottom: the colour of every obstacle kind.
-    x, y = 60, size[1] - 80
+        x, y = pixel((0., width / 2, (cfg.num_rows - 1 - layout) * LAYER_GAP))
+        draw.text((x - 30, y - 24), f"Layout {layout + 1}" if training else "Test layout", font=name, fill=ink,
+                  anchor="rm")
+        draw.text((x - 30, y + 38), f"{ENV2_LANES} lanes, {'training' if training else 'never trained on'}",
+                  font=note, fill=soft, anchor="rm")
+    # Legend along the bottom, centred: the colour of every obstacle kind.
+    x = (size[0] - sum(124 + draw.textlength(label, font=name) for label, _ in LEGEND) - 70 * (len(LEGEND) - 1)) / 2
+    y = size[1] - 100
     for label, rgba in LEGEND:
-        draw.rectangle((x, y - 22, x + 66, y + 22), fill=tuple(round(255 * c) for c in rgba[:3]))
-        draw.text((x + 84, y), label, font=note, fill=ink, anchor="lm")
-        x += 84 + draw.textlength(label, font=note) + 70
+        draw.rectangle((x, y - 34, x + 100, y + 34), fill=tuple(round(255 * c) for c in rgba[:3]))
+        draw.text((x + 124, y), label, font=name, fill=ink, anchor="lm")
+        x += 124 + draw.textlength(label, font=name) + 70
     MEDIA.mkdir(exist_ok=True)
     picture.save(MEDIA / "env2_layouts.png")
     print(MEDIA / "env2_layouts.png", picture.size)

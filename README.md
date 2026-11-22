@@ -84,10 +84,11 @@ Training starts from the env1 policy with a new critic, and for the first 50 ite
 is no curriculum: after every episode a robot moves to a random training layout.
 
 <p align="center">
-  <img src="python/parkour_rl/media/env2_layouts.png" width="560" alt="The four training layouts of env2">
+  <img src="python/parkour_rl/media/env2_layouts.png" width="560" alt="The four training layouts and the test layout of env2">
 </p>
 
-*The four training layouts, drawn on top of each other. Each lane is 37 m long; the first 28 m are shown.*
+*The four training layouts and the test layout, drawn on top of each other. Each lane is 37 m long; the first 30 m
+are shown.*
 
 The run lasted 3000 iterations. We release the policy of iteration 1000 (`python/parkour_rl/checkpoints/`): the last
 one was no better on the test layout (51 of 80 episodes against 54) and had forgotten more of env1.
