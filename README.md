@@ -42,7 +42,7 @@ The four clips show the two policies under scripted commands on flat ground, wit
 
 ## 2. A high-level policy: depth image and curriculum (env1)
 
-![The hierarchy: depth camera and body state feed the high-level policy, which commands the frozen crawl and jump policies](python/parkour_rl/media/policy_diagram.png)
+![The hierarchy: a depth image and the body state feed the high-level policy, which is trained and commands the frozen crawl and jump policies](python/parkour_rl/media/policy_diagram.png)
 
 **What it sees.** A depth image of 80 x 60 pixels from the front camera, turned into 440 numbers by a frozen
 [DeFM](https://github.com/leggedrobotics/defm) encoder (RegNetY-400MF), and 24 numbers about its own body: angular
