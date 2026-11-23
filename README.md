@@ -299,16 +299,15 @@ tunnel.
 
 ### 3.4 Running it
 
-The LLM controller is the package `python/parkour_llm` on the `llm-high-level-policy` branch of
-[bingdong45/openBeni](https://github.com/bingdong45/openBeni/tree/llm-high-level-policy), which adds it to this
-repository's code.
+The LLM controller is the package `python/parkour_llm`. It needs the `anthropic` package, which `uv sync --locked`
+installs with the rest.
 
-**Where the API is called.** `backends.py`. `ClaudeBackend.ask` sends one request per robot and decision through
+**Where the API is called.** `python/parkour_llm/backends.py`. `ClaudeBackend.ask` sends one request per robot and decision through
 the Anthropic Python SDK (`messages.create`): the instructions as the system prompt, the picture and the text as
 the user turn, and a JSON schema that the reply has to follow. The key is read from the environment variable
 `ANTHROPIC_API_KEY`. Jev is called by `JevBackend`, with the key in `JEV_KEY`.
 
-**How inference runs.** `policy.py`. `LlmPolicy.act()` returns the high-level action that the PPO actor would
+**How inference runs.** `python/parkour_llm/policy.py`. `LlmPolicy.act()` returns the high-level action that the PPO actor would
 return. Every 5 high-level steps it asks the backend for a plan per robot and holds it in between: speed and body
 height stay as planned, and the jump trigger is raised on the one step that the plan names. `run.py` runs the
 episodes and logs every prompt and reply:
@@ -323,7 +322,9 @@ uv run python -m parkour_llm.run env1 --lanes all --backend oracle              
 ```
 
 Every call is paid for. `--max-calls` stops a run before it has made more calls than that (400 unless set).
-`--starts` takes a table with the start and goal of every episode.
+`--starts` takes a table with the start and goal of every episode. The key can also stand in a file `.env` at the
+top of the repository, which git ignores. More runs, lane by lane, are in
+[python/parkour_llm/RESULTS.md](python/parkour_llm/RESULTS.md).
 
 ## 4. Comparison
 
@@ -337,7 +338,7 @@ episode succeeds, as in 2., when the robot stops upright at the goal within the 
 
 | Controller | Goal reached, of 32 episodes | Obstacles cleared, of those it got to | Average time to the goal | Cost of the model calls |
 | --- | :---: | :---: | :---: | :---: |
-| RL policy (trained with PPO) | 21 (66%) | 151 of 157 (96%) | 15.2 s (2 clips) | none |
+| RL policy (trained with PPO) | 21 (66%) | 151 of 157 (96%) | **15.2 s** (2 clips) | none |
 | LLM: Claude Opus 5.5 | **22 (69%)** | 143 of 153 (93%) | 25.9 s (3 clips) | $27.99 |
 | LLM: Claude Haiku 5.5 | 2 (6%) | 37 of 67 (55%) | 31.7 s (2 clips) | $0.44 |
 | LLM: Jev | 8 (25%) | 75 of 99 (76%) | 25.6 s (3 clips) | $0.58 |
@@ -354,35 +355,43 @@ at 1.0 m/s. The simulation waits for the answers of a model, so its time does no
 ### 4.3 Videos
 
 Three episodes of each controller, seen from behind the robot. They are examples, not a sample: the table above has
-the rates. A click on a clip opens the full video; for the language models it also shows what the model was shown
-and what it answered.
+the rates. For the language models the right half of a clip shows the reasoning: the depth picture of the latest
+call (for Jev the frame that was sent as a table), what the model answered about the scene, and the commands it
+gave. A click on a clip opens it as a video.
+
+**RL policy (trained with PPO)**
 
 <table>
-  <tr><th colspan="3" align="left">RL policy (trained with PPO)</th></tr>
   <tr>
-    <td align="center"><a href="python/parkour_rl/media/comparison/rl_lane_3.mp4"><img src="python/parkour_rl/media/comparison/rl_lane_3.gif" width="270" alt="RL policy (trained with PPO) on test lane 3"></a><br>Lane 3: goal reached in 18.3 s</td>
-    <td align="center"><a href="python/parkour_rl/media/comparison/rl_lane_9.mp4"><img src="python/parkour_rl/media/comparison/rl_lane_9.gif" width="270" alt="RL policy (trained with PPO) on test lane 9"></a><br>Lane 9: goal reached in 12.0 s</td>
-    <td align="center"><a href="python/parkour_rl/media/comparison/rl_lane_14.mp4"><img src="python/parkour_rl/media/comparison/rl_lane_14.gif" width="270" alt="RL policy (trained with PPO) on test lane 14"></a><br>Lane 14: fell after 14.2 s</td>
-  </tr>
-  <tr><th colspan="3" align="left">LLM: Claude Opus 5.5</th></tr>
-  <tr>
-    <td align="center"><a href="python/parkour_rl/media/comparison/opus_lane_3.mp4"><img src="python/parkour_rl/media/comparison/opus_lane_3.gif" width="270" alt="LLM: Claude Opus 5.5 on test lane 3"></a><br>Lane 3: goal reached in 31.0 s</td>
-    <td align="center"><a href="python/parkour_rl/media/comparison/opus_lane_9.mp4"><img src="python/parkour_rl/media/comparison/opus_lane_9.gif" width="270" alt="LLM: Claude Opus 5.5 on test lane 9"></a><br>Lane 9: goal reached in 23.9 s</td>
-    <td align="center"><a href="python/parkour_rl/media/comparison/opus_lane_14.mp4"><img src="python/parkour_rl/media/comparison/opus_lane_14.gif" width="270" alt="LLM: Claude Opus 5.5 on test lane 14"></a><br>Lane 14: goal reached in 22.9 s</td>
-  </tr>
-  <tr><th colspan="3" align="left">LLM: Claude Haiku 5.5</th></tr>
-  <tr>
-    <td align="center"><a href="python/parkour_rl/media/comparison/haiku_lane_3_fail.mp4"><img src="python/parkour_rl/media/comparison/haiku_lane_3_fail.gif" width="270" alt="LLM: Claude Haiku 5.5 on test lane 3"></a><br>Lane 3: failed after 19.0 s</td>
-    <td align="center"><a href="python/parkour_rl/media/comparison/haiku_lane_3.mp4"><img src="python/parkour_rl/media/comparison/haiku_lane_3.gif" width="270" alt="LLM: Claude Haiku 5.5 on test lane 3"></a><br>Lane 3: goal reached in 41.2 s</td>
-    <td align="center"><a href="python/parkour_rl/media/comparison/haiku_lane_12.mp4"><img src="python/parkour_rl/media/comparison/haiku_lane_12.gif" width="270" alt="LLM: Claude Haiku 5.5 on test lane 12"></a><br>Lane 12: goal reached in 22.3 s</td>
-  </tr>
-  <tr><th colspan="3" align="left">LLM: Jev</th></tr>
-  <tr>
-    <td align="center"><a href="python/parkour_rl/media/comparison/jev_lane_2.mp4"><img src="python/parkour_rl/media/comparison/jev_lane_2.gif" width="270" alt="LLM: Jev on test lane 2"></a><br>Lane 2: goal reached in 25.8 s</td>
-    <td align="center"><a href="python/parkour_rl/media/comparison/jev_lane_4.mp4"><img src="python/parkour_rl/media/comparison/jev_lane_4.gif" width="270" alt="LLM: Jev on test lane 4"></a><br>Lane 4: goal reached in 21.0 s</td>
-    <td align="center"><a href="python/parkour_rl/media/comparison/jev_lane_10.mp4"><img src="python/parkour_rl/media/comparison/jev_lane_10.gif" width="270" alt="LLM: Jev on test lane 10"></a><br>Lane 10: goal reached in 30.0 s</td>
+    <td align="center"><a href="python/parkour_rl/media/comparison/rl_lane_3.mp4"><img src="python/parkour_rl/media/comparison/rl_lane_3.gif" width="270" alt="The RL policy on test lane 3"></a><br>Lane 3: goal reached in 18.3 s</td>
+    <td align="center"><a href="python/parkour_rl/media/comparison/rl_lane_9.mp4"><img src="python/parkour_rl/media/comparison/rl_lane_9.gif" width="270" alt="The RL policy on test lane 9"></a><br>Lane 9: goal reached in 12.0 s</td>
+    <td align="center"><a href="python/parkour_rl/media/comparison/rl_lane_14.mp4"><img src="python/parkour_rl/media/comparison/rl_lane_14.gif" width="270" alt="The RL policy on test lane 14"></a><br>Lane 14: fell after 14.2 s</td>
   </tr>
 </table>
+
+**LLM: Claude Opus 5.5**
+
+<p align="center"><a href="python/parkour_rl/media/comparison/opus_lane_3.mp4"><img src="python/parkour_rl/media/comparison/opus_lane_3.gif" width="880" alt="Claude Opus 5.5 on test lane 3, with what it was shown and what it answered"></a><br>Lane 3: goal reached in 31.0 s</p>
+
+<p align="center"><a href="python/parkour_rl/media/comparison/opus_lane_9.mp4"><img src="python/parkour_rl/media/comparison/opus_lane_9.gif" width="880" alt="Claude Opus 5.5 on test lane 9, with what it was shown and what it answered"></a><br>Lane 9: goal reached in 23.9 s</p>
+
+<p align="center"><a href="python/parkour_rl/media/comparison/opus_lane_14.mp4"><img src="python/parkour_rl/media/comparison/opus_lane_14.gif" width="880" alt="Claude Opus 5.5 on test lane 14, with what it was shown and what it answered"></a><br>Lane 14: goal reached in 22.9 s</p>
+
+**LLM: Claude Haiku 5.5**
+
+<p align="center"><a href="python/parkour_rl/media/comparison/haiku_lane_3_fail.mp4"><img src="python/parkour_rl/media/comparison/haiku_lane_3_fail.gif" width="880" alt="Claude Haiku 5.5 on test lane 3, with what it was shown and what it answered"></a><br>Lane 3: failed after 19.0 s</p>
+
+<p align="center"><a href="python/parkour_rl/media/comparison/haiku_lane_3.mp4"><img src="python/parkour_rl/media/comparison/haiku_lane_3.gif" width="880" alt="Claude Haiku 5.5 on test lane 3, with what it was shown and what it answered"></a><br>Lane 3: goal reached in 41.2 s</p>
+
+<p align="center"><a href="python/parkour_rl/media/comparison/haiku_lane_12.mp4"><img src="python/parkour_rl/media/comparison/haiku_lane_12.gif" width="880" alt="Claude Haiku 5.5 on test lane 12, with what it was shown and what it answered"></a><br>Lane 12: goal reached in 22.3 s</p>
+
+**LLM: Jev**
+
+<p align="center"><a href="python/parkour_rl/media/comparison/jev_lane_2.mp4"><img src="python/parkour_rl/media/comparison/jev_lane_2.gif" width="880" alt="Jev on test lane 2, with what it was shown and what it answered"></a><br>Lane 2: goal reached in 25.8 s</p>
+
+<p align="center"><a href="python/parkour_rl/media/comparison/jev_lane_4.mp4"><img src="python/parkour_rl/media/comparison/jev_lane_4.gif" width="880" alt="Jev on test lane 4, with what it was shown and what it answered"></a><br>Lane 4: goal reached in 21.0 s</p>
+
+<p align="center"><a href="python/parkour_rl/media/comparison/jev_lane_10.mp4"><img src="python/parkour_rl/media/comparison/jev_lane_10.gif" width="880" alt="Jev on test lane 10, with what it was shown and what it answered"></a><br>Lane 10: goal reached in 30.0 s</p>
 
 ## 5. Web demo
 

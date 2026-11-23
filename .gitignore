@@ -27,3 +27,6 @@ runs/
 .DS_Store
 .vscode/
 MUJOCO_LOG.TXT
+
+# API keys for parkour_llm.
+.env
