@@ -371,27 +371,27 @@ gave. A click on a clip opens it as a video.
 
 **LLM: Claude Opus 5.5**
 
-<p align="center"><a href="python/parkour_rl/media/comparison/opus_lane_3.mp4"><img src="python/parkour_rl/media/comparison/opus_lane_3.gif" width="880" alt="Claude Opus 5.5 on test lane 3, with what it was shown and what it answered"></a><br>Lane 3: goal reached in 31.0 s</p>
+<p align="center"><a href="python/parkour_rl/media/comparison/opus_lane_3.mp4"><img src="python/parkour_rl/media/comparison/opus_lane_3_reasoning.gif" width="880" alt="Claude Opus 5.5 on test lane 3, with what it was shown and what it answered"></a><br>Lane 3: goal reached in 31.0 s</p>
 
-<p align="center"><a href="python/parkour_rl/media/comparison/opus_lane_9.mp4"><img src="python/parkour_rl/media/comparison/opus_lane_9.gif" width="880" alt="Claude Opus 5.5 on test lane 9, with what it was shown and what it answered"></a><br>Lane 9: goal reached in 23.9 s</p>
+<p align="center"><a href="python/parkour_rl/media/comparison/opus_lane_9.mp4"><img src="python/parkour_rl/media/comparison/opus_lane_9_reasoning.gif" width="880" alt="Claude Opus 5.5 on test lane 9, with what it was shown and what it answered"></a><br>Lane 9: goal reached in 23.9 s</p>
 
-<p align="center"><a href="python/parkour_rl/media/comparison/opus_lane_14.mp4"><img src="python/parkour_rl/media/comparison/opus_lane_14.gif" width="880" alt="Claude Opus 5.5 on test lane 14, with what it was shown and what it answered"></a><br>Lane 14: goal reached in 22.9 s</p>
+<p align="center"><a href="python/parkour_rl/media/comparison/opus_lane_14.mp4"><img src="python/parkour_rl/media/comparison/opus_lane_14_reasoning.gif" width="880" alt="Claude Opus 5.5 on test lane 14, with what it was shown and what it answered"></a><br>Lane 14: goal reached in 22.9 s</p>
 
 **LLM: Claude Haiku 5.5**
 
-<p align="center"><a href="python/parkour_rl/media/comparison/haiku_lane_3_fail.mp4"><img src="python/parkour_rl/media/comparison/haiku_lane_3_fail.gif" width="880" alt="Claude Haiku 5.5 on test lane 3, with what it was shown and what it answered"></a><br>Lane 3: failed after 19.0 s</p>
+<p align="center"><a href="python/parkour_rl/media/comparison/haiku_lane_3_fail.mp4"><img src="python/parkour_rl/media/comparison/haiku_lane_3_fail_reasoning.gif" width="880" alt="Claude Haiku 5.5 on test lane 3, with what it was shown and what it answered"></a><br>Lane 3: failed after 19.0 s</p>
 
-<p align="center"><a href="python/parkour_rl/media/comparison/haiku_lane_3.mp4"><img src="python/parkour_rl/media/comparison/haiku_lane_3.gif" width="880" alt="Claude Haiku 5.5 on test lane 3, with what it was shown and what it answered"></a><br>Lane 3: goal reached in 41.2 s</p>
+<p align="center"><a href="python/parkour_rl/media/comparison/haiku_lane_3.mp4"><img src="python/parkour_rl/media/comparison/haiku_lane_3_reasoning.gif" width="880" alt="Claude Haiku 5.5 on test lane 3, with what it was shown and what it answered"></a><br>Lane 3: goal reached in 41.2 s</p>
 
-<p align="center"><a href="python/parkour_rl/media/comparison/haiku_lane_12.mp4"><img src="python/parkour_rl/media/comparison/haiku_lane_12.gif" width="880" alt="Claude Haiku 5.5 on test lane 12, with what it was shown and what it answered"></a><br>Lane 12: goal reached in 22.3 s</p>
+<p align="center"><a href="python/parkour_rl/media/comparison/haiku_lane_12.mp4"><img src="python/parkour_rl/media/comparison/haiku_lane_12_reasoning.gif" width="880" alt="Claude Haiku 5.5 on test lane 12, with what it was shown and what it answered"></a><br>Lane 12: goal reached in 22.3 s</p>
 
 **LLM: Jev**
 
-<p align="center"><a href="python/parkour_rl/media/comparison/jev_lane_2.mp4"><img src="python/parkour_rl/media/comparison/jev_lane_2.gif" width="880" alt="Jev on test lane 2, with what it was shown and what it answered"></a><br>Lane 2: goal reached in 25.8 s</p>
+<p align="center"><a href="python/parkour_rl/media/comparison/jev_lane_2.mp4"><img src="python/parkour_rl/media/comparison/jev_lane_2_reasoning.gif" width="880" alt="Jev on test lane 2, with what it was shown and what it answered"></a><br>Lane 2: goal reached in 25.8 s</p>
 
-<p align="center"><a href="python/parkour_rl/media/comparison/jev_lane_4.mp4"><img src="python/parkour_rl/media/comparison/jev_lane_4.gif" width="880" alt="Jev on test lane 4, with what it was shown and what it answered"></a><br>Lane 4: goal reached in 21.0 s</p>
+<p align="center"><a href="python/parkour_rl/media/comparison/jev_lane_4.mp4"><img src="python/parkour_rl/media/comparison/jev_lane_4_reasoning.gif" width="880" alt="Jev on test lane 4, with what it was shown and what it answered"></a><br>Lane 4: goal reached in 21.0 s</p>
 
-<p align="center"><a href="python/parkour_rl/media/comparison/jev_lane_10.mp4"><img src="python/parkour_rl/media/comparison/jev_lane_10.gif" width="880" alt="Jev on test lane 10, with what it was shown and what it answered"></a><br>Lane 10: goal reached in 30.0 s</p>
+<p align="center"><a href="python/parkour_rl/media/comparison/jev_lane_10.mp4"><img src="python/parkour_rl/media/comparison/jev_lane_10_reasoning.gif" width="880" alt="Jev on test lane 10, with what it was shown and what it answered"></a><br>Lane 10: goal reached in 30.0 s</p>
 
 ## 5. Web demo
 
